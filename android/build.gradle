@@ -1,0 +1,44 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        // Updated to Gradle plugin version 8.2.2 to support SDK 34
+        gradle_version = '8.2.2'
+    }
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        // Use only the latest stable Gradle plugin version
+        classpath 'com.android.tools.build:gradle:8.2.2'
+
+        // Google services classpath for Firebase, updated to the latest version
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+
+// Configuration for all subprojects
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Define build directories to keep things organized
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+
+// Ensure all subprojects evaluate :app first
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+// Register a clean task for cleaning the project
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
